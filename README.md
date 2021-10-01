@@ -58,6 +58,13 @@ Besides the aforementioned features, the SINet architecture uses **depthwise sep
 
 We trained the sinet model with **aisegment + baidu portrait** dataset using input size **320** and cross entropy loss function, for 600 epochs and achieved an **mIOU of  97.5%**. The combined dataset consists of around **80K images**(train+val), after data augmentaion. The final trained model has a size of **480kB** and **86.91K parameters**.
 
+## License
+
+This project is licensed under the terms of the [MIT](LICENSE) license.
+
+## Versioning
+
+Version 1.0
 
 ## Acknowledgments
 * https://github.com/anilsathyan7/Portrait-Segmentation
