@@ -5,14 +5,7 @@ import tensorflow as tf
 from PIL import Image
 
 class SelfieSegMNV2:
-    """
-    Class that continuously gets frames from a VideoCapture object
-    with a dedicated process.
-    """
-
     def __init__(self, width=320, height=240):
-        self.process = None
-
         # Initialize tflite-interpreter
         self.width = width
         self.height = height
@@ -67,10 +60,15 @@ if __name__ == "__main__":
     cap.set(4, height)
 
     # Load and resize the background image
-    bgd = cv2.imread('./images/whitehouse.jpeg')
+    bgd = cv2.imread('./images/background.jpeg')
     bgd = cv2.resize(bgd, (width, height))
 
+    elapsedTime = 0
+    count = 0
+
     while cv2.waitKey(1) < 0:
+        t1 = time.time()
+
         # Read input frames
         success, frame = cap.read()
         if not success:
@@ -85,7 +83,13 @@ if __name__ == "__main__":
         bg = cv2.bitwise_or(bgd, bgd, mask=~mask)
         out = cv2.bitwise_or(fg, bg)
 
+        elapsedTime += (time.time() - t1)
+        count += 1
+        fps = "{:.1f} FPS".format(count / elapsedTime)
+
         # Show output in window
+        cv2.putText(out, fps, (10, 15), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (38, 255, 38), 1, cv2.LINE_AA)
         cv2.imshow('Selfie Segmentation', out)
 
     cv2.destroyAllWindows()
+    cap.release()

@@ -1,37 +1,34 @@
-import cv2, sys, time
-import numpy as np
-from keras.models import load_model
-from PIL import Image
 
-class SelfieSegMNV3:
+from PIL import Image
+import cv2
+import time
+import mediapipe as mp
+
+class SelfieSegMP:
     def __init__(self, width=320, height=240):
         self.width = width
         self.height = height
-        self.dim = 224
-        self.model = load_model("models/mnv3_seg/munet_mnv3_wm05.h5")
+        self.mp_drawing = mp.solutions.drawing_utils
+        self.mp_selfie_segmentation = mp.solutions.selfie_segmentation
+        self.selfie_segmentation = self.mp_selfie_segmentation.SelfieSegmentation(model_selection=1)
 
     def seg(self, frame):
-        rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        image = Image.fromarray(rgb)
+        image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-        image = image.resize((self.dim, self.dim), Image.ANTIALIAS)
-        img = np.float32(np.array(image) / 255.0)
-        img = img[:, :, 0:3]
+        image.flags.writeable = False
+        results = self.selfie_segmentation.process(image)
 
-        # Reshape input and threshold output
-        out = self.model.predict(img.reshape(1, self.dim, self.dim, 3))
-        out = np.float32((out > 0.5)).reshape(self.dim, self.dim)
-        mask = (255 * out).astype("uint8")
-
-        mask = cv2.resize(mask, (self.width, self.height))
-        _, mask = cv2.threshold(mask, 128, 255, 0)
+        mask = cv2.resize(results.segmentation_mask, (self.width, self.height), interpolation=cv2.INTER_CUBIC)
+        mask = (255 * mask).astype("uint8")
+        _, mask = cv2.threshold(mask, 128, 255, cv2.THRESH_BINARY)
 
         return mask
 
 if __name__ == "__main__":
+    #"""
     width = 320
     height = 240
-    seg = SelfieSegMNV3(width, height)
+    seg = SelfieSegMP(width, height)
 
     # Capture video from camera
     cap = cv2.VideoCapture(0)
