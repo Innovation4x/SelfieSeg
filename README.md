@@ -7,6 +7,7 @@ Selfie/Portrait Segmentation Models
 * Keras(>=2.2.4), Kito, Scipy, Dlib
 * Opencv(>=3.4), PIL, Matplotlib
 * PyTorch(>=1.9.0)
+* Mediapipe
 
 ## Dataset Links
 
@@ -68,6 +69,11 @@ DeepLabV3 models with ResNet-101 backbones
 
 Fully-Convolutional Network model with ResNet-101 backbones.
 (https://pytorch.org/hub/pytorch_vision_fcn_resnet101/)
+
+**7. SelfieSegMP.py**
+
+MediaPipe Selfie Segmentation segments the prominent humans in the scene. It can run in real-time on both smartphones and laptops. The intended use cases include selfie effects and video conferencing, where the person is close (< 2m) to the camera.
+(https://google.github.io/mediapipe/solutions/selfie_segmentation.html)
 
 ## License
 
