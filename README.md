@@ -6,6 +6,7 @@ Selfie/Portrait Segmentation Models
 * Tensorflow(>=1.14.0), Python 3
 * Keras(>=2.2.4), Kito, Scipy, Dlib
 * Opencv(>=3.4), PIL, Matplotlib
+* PyTorch(>=1.9.0)
 
 ## Dataset Links
 
@@ -57,6 +58,16 @@ Besides the aforementioned features, the SINet architecture uses **depthwise sep
 
 
 We trained the sinet model with **aisegment + baidu portrait** dataset using input size **320** and cross entropy loss function, for 600 epochs and achieved an **mIOU of  97.5%**. The combined dataset consists of around **80K images**(train+val), after data augmentaion. The final trained model has a size of **480kB** and **86.91K parameters**.
+
+**5. SelfieSegDLV3.py**
+
+DeepLabV3 models with ResNet-101 backbones
+(https://pytorch.org/hub/pytorch_vision_deeplabv3_resnet101/)
+
+**6. SelfieSegFCN.py**
+
+Fully-Convolutional Network model with ResNet-101 backbones.
+(https://pytorch.org/hub/pytorch_vision_fcn_resnet101/)
 
 ## License
 
